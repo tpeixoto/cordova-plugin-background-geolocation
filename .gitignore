@@ -1,5 +1,3 @@
-# prevent accidental commits by exclude everything
-/*
 
 # only include project files
 !/.npmignore
