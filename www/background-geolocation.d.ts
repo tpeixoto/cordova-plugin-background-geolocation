@@ -343,7 +343,7 @@ export declare class BackgroundGeolocation {
      * @param failure {Function} failure On failure callback
      * @param options {BackgroundGeolocationConfig} options An object of type Config
      */
-    static configure(success:Function, failure:Function, options: BackgroundGeolocationConfig);
+    static configure(options: BackgroundGeolocationConfig, success:Function, failure:Function);
 
     /**
      * Turn ON the background-geolocation system.

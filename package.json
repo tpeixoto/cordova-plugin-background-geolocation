@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-2mundos-background-geolocation",
-  "version": "2.3.2.1",
+  "version": "2.3.2-2m",
   "description": "Cordova Background Geolocation Plugin",
   "cordova": {
     "id": "cordova-plugin-2mundos-background-geolocation",
@@ -13,7 +13,7 @@
   "types": "./www/backgroundGeolocation.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/2mundos/cordova-plugin-background-geolocation.git"
+    "url": "git+https://github.com/tpeixoto/cordova-plugin-2mundos-background-geolocation"
   },
   "keywords": [
     "gps",
@@ -33,5 +33,5 @@
     }
   ],
   "author": "",
-  "license": "Apache-2.0",
+  "license": "Apache-2.0"
 }
