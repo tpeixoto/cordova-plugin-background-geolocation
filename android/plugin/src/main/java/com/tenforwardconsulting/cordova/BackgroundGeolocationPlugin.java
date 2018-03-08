@@ -245,6 +245,8 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         if (ACTION_START.equals(action)) {
             executorService.execute(new Runnable() {
                 public void run() {
+                    log.warn("Execute start action");
+
                     if (config == null) {
                         log.warn("Attempt to start unconfigured service");
                         callbackContext.error("Plugin not configured. Please call configure method first.");
