@@ -35,6 +35,10 @@ public class Config implements Parcelable
     public static final String ACCOUNT_TYPE_RESOURCE = "account_type";
     public static final String CONTENT_AUTHORITY_RESOURCE = "content_authority";
 
+    private float originLatitude = 0;
+    private float originLongitude = 0;
+    private float perimeterRadius = 1;
+
     private float stationaryRadius = 50;
     private Integer distanceFilter = 500;
     private Integer desiredAccuracy = 100;
@@ -67,6 +71,9 @@ public class Config implements Parcelable
 
     // write your object's data to the passed-in Parcel
     public void writeToParcel(Parcel out, int flags) {
+        out.writeFloat(getOriginLatitude());
+        out.writeFloat(getOriginLongitude());
+        out.writeFloat(getPerimeterRadius());
         out.writeFloat(getStationaryRadius());
         out.writeInt(getDistanceFilter());
         out.writeInt(getDesiredAccuracy());
@@ -105,6 +112,9 @@ public class Config implements Parcelable
     };
 
     private Config(Parcel in) {
+        setOriginLatitude(in.readFloat());
+        setOriginLongitude(in.readFloat());
+        setPerimeterRadius(in.readFloat());
         setStationaryRadius(in.readFloat());
         setDistanceFilter(in.readInt());
         setDesiredAccuracy(in.readInt());
@@ -130,8 +140,32 @@ public class Config implements Parcelable
         setHttpHeaders((HashMap<String, String>) bundle.getSerializable("httpHeaders"));
     }
 
+    public float getOriginLatitude() {
+        return originLatitude;
+    }
+
+    public float getOriginLongitude() {
+        return originLongitude;
+    }
+
+    public float getPerimeterRadius() {
+        return perimeterRadius;
+    }
+
     public float getStationaryRadius() {
         return stationaryRadius;
+    }
+
+    public void setOriginLatitude(float originLatitude) {
+        this.originLatitude = originLatitude;
+    }
+
+    public void setOriginLongitude(float originLongitude) {
+        this.originLongitude = originLongitude;
+    }
+
+    public void setPerimeterRadius(float perimeterRadius) {
+        this.perimeterRadius = perimeterRadius;
     }
 
     public void setStationaryRadius(float stationaryRadius) {
@@ -334,6 +368,9 @@ public class Config implements Parcelable
     public String toString () {
         return new StringBuffer()
                 .append("Config[distanceFilter=").append(getDistanceFilter())
+                .append(" originLatitude=").append(getOriginLatitude())
+                .append(" originLongitude=").append(getOriginLongitude())
+                .append(" perimeterRadius=").append(getPerimeterRadius())
                 .append(" stationaryRadius=").append(getStationaryRadius())
                 .append(" desiredAccuracy=").append(getDesiredAccuracy())
                 .append(" interval=").append(getInterval())
@@ -375,6 +412,9 @@ public class Config implements Parcelable
 
     public static Config fromJSONObject (JSONObject jObject) throws JSONException {
         Config config = new Config();
+        config.setOriginLatitude((float) jObject.optDouble("originLatitude", config.getOriginLatitude()));
+        config.setOriginLongitude((float) jObject.optDouble("originLongitude", config.getOriginLongitude()));
+        config.setPerimeterRadius((float) jObject.optDouble("perimeterRadius", config.getPerimeterRadius()));
         config.setStationaryRadius((float) jObject.optDouble("stationaryRadius", config.getStationaryRadius()));
         config.setDistanceFilter(jObject.optInt("distanceFilter", config.getDistanceFilter()));
         config.setDesiredAccuracy(jObject.optInt("desiredAccuracy", config.getDesiredAccuracy()));
@@ -403,6 +443,9 @@ public class Config implements Parcelable
 
     public JSONObject toJSONObject() throws JSONException {
         JSONObject json = new JSONObject();
+        json.put("originLatitude", getOriginLatitude());
+        json.put("originLongitude", getOriginLongitude());
+        json.put("perimeterRadius", getPerimeterRadius());
         json.put("stationaryRadius", getStationaryRadius());
         json.put("distanceFilter", getDistanceFilter());
         json.put("desiredAccuracy", getDesiredAccuracy());

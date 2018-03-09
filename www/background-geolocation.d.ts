@@ -68,6 +68,24 @@ export interface BackgroundGeolocationResponse {
 }
 
 export interface BackgroundGeolocationConfig {
+   /*
+    * Latitude of the perimeter's Central point.
+    * It will be used against the radius to calculate if the device is inside/outside of the perimeter.
+    */
+    originLatitude: number;
+
+   /*
+    * Longitude of the perimeter's Central point.
+    * It will be used against the radius to calculate if the device is inside/outside of the perimeter.
+    */
+    originLongitude: number;
+
+   /*
+    * Perimeter radius in meters.
+    * It will be used against the originPoint to calculate if the device is inside/outside of the perimeter.
+    */
+    perimeterRadius: number;
+
     /**
      * Desired accuracy in meters. Possible values [0, 10, 100, 1000]. The lower
      * the number, the more power devoted to GeoLocation resulting in higher
@@ -341,9 +359,10 @@ export declare class BackgroundGeolocation {
      *
      * @param success {Function} success On success callback
      * @param failure {Function} failure On failure callback
-     * @param options {BackgroundGeolocationConfig} options An object of type Config
+     * @param insidePerimeterConfig {BackgroundGeolocationConfig} insidePerimeterConfig An object of type Config to be used when the device is inside of a given perimeter.
+     * @param outsidePerimeterConfig {BackgroundGeolocationConfig} outsidePerimeterConfig An object of type Config to be used when the device is outside of a given perimeter.
      */
-    static configure(options: BackgroundGeolocationConfig, success:Function, failure:Function);
+    static configure(insidePerimeterConfig:BackgroundGeolocationConfig, outsidePerimeterConfig:BackgroundGeolocationConfig, success:Function, failure:Function);
 
     /**
      * Turn ON the background-geolocation system.

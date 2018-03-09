@@ -34,12 +34,12 @@ var backgroundGeolocation = {
         PASSIVE: 10000
     },
 
-    configure: function(config, success, failure) {
+    configure: function(insidePerimeterConfig, outsidePerimeterConfig, success, failure) {
         exec(success || emptyFnc,
             failure || emptyFnc,
             'BackgroundGeolocation',
             'configure',
-            [config]
+            [insidePerimeterConfig, outsidePerimeterConfig]
         );
     },
 
