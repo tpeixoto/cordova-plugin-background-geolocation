@@ -651,7 +651,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
 
     public void persistConfiguration(Config currentPerimeterConfig) throws NullPointerException {
         ConfigurationDAO dao = DAOFactory.createConfigurationDAO(getContext());
-        dao.persistConfiguration(config);
+        dao.persistConfiguration(currentPerimeterConfig);
     }
 
     public JSONObject retrieveConfiguration() throws JSONException {
