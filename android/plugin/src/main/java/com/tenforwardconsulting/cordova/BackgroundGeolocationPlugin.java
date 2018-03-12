@@ -300,7 +300,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
 
                         currentPerimeterConfig = insidePerimeterConfig;
 
-                        persistConfiguration(insidePerimeterConfig, outsidePerimeterConfig);
+                        persistConfiguration(currentPerimeterConfig);
                         // callbackContext.success(); //we cannot do this
                     } catch (JSONException e) {
                         log.error("Configuration error: {}", e.getMessage());
@@ -649,30 +649,19 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         dao.deleteAllLocations();
     }
 
-    public void persistConfiguration(Config insidePerimeterConfig, Config outsidePerimeterConfig) throws NullPointerException {
+    public void persistConfiguration(Config currentPerimeterConfig) throws NullPointerException {
         ConfigurationDAO dao = DAOFactory.createConfigurationDAO(getContext());
-
-        Config[] configs = {
-            insidePerimeterConfig,
-            outsidePerimeterConfig
-        };
-
-        dao.persistConfiguration(configs);
+        dao.persistConfiguration(config);
     }
 
-    public JSONObject[] retrieveConfiguration() throws JSONException {
+    public JSONObject retrieveConfiguration() throws JSONException {
         ConfigurationDAO dao = DAOFactory.createConfigurationDAO(getContext());
-        Config[] configs = dao.retrieveConfiguration();
-
-        JSONObject[] jsonObjArray = new JSONObject[configs.length];
-
-        for (int i = 0; i < configs.length; i++) {
-            if (configs[i] != null) {
-                jsonObjArray[i] = configs[i];
-            }
+        Config config = dao.retrieveConfiguration();
+        if (config != null) {
+            return config.toJSONObject();
         }
 
-        return jsonObjArray;
+        return null;
     }
 
     public JSONArray getLogs(Integer limit) throws Exception {

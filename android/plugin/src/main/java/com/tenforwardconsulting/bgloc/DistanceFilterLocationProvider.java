@@ -52,6 +52,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
     private static final Integer MAX_STATIONARY_ACQUISITION_ATTEMPTS = 5;
     private static final Integer MAX_SPEED_ACQUISITION_ATTEMPTS = 3;
 
+    private Boolean isInsidePerimeter = true;
     private Boolean isMoving = false;
     private Boolean isAcquiringStationaryLocation = false;
     private Boolean isAcquiringSpeed = false;
@@ -316,6 +317,21 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         // Go ahead and cache, push to server
         lastLocation = location;
         handleLocation(location);
+
+        log.info("Origin lat: " + originLocation.getLatitude() + 
+                 "Origin lng: " + originLocation.getLongitude() +
+                 "Distance to origin: " + location.distanceTo(originLocation) +
+                 ", Perimeter radius: " + config.getPerimeterRadius() + 
+                 ", Is inside: " + (location.distanceTo(originLocation) > config.getPerimeterRadius()));
+
+        if (location.distanceTo(originLocation) > config.getPerimeterRadius() && isInsidePerimeter) {
+            isInsidePerimeter = false;
+            onCrossingPerimeter(isInsidePerimeter);
+        }
+        else if (location.distanceTo(originLocation) < config.getPerimeterRadius() && !isInsidePerimeter) {
+            isInsidePerimeter = true;
+            onCrossingPerimeter(isInsidePerimeter);
+        }
     }
 
     public void resetStationaryAlarm() {

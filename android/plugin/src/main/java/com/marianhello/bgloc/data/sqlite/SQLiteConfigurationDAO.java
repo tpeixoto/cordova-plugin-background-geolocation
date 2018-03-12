@@ -32,6 +32,9 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
 
     String[] columns = {
     	ConfigurationEntry._ID,
+      ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT,
+      ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG,
+      ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS,
       ConfigurationEntry.COLUMN_NAME_RADIUS,
       ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER,
       ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY,
@@ -96,6 +99,9 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
 
   private Config hydrate(Cursor c) throws JSONException {
     Config config = new Config();
+    config.setOriginLatitude(c.getFloat(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT)));
+    config.setOriginLongitude(c.getFloat(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG)));
+    config.setPerimeterRadius(c.getFloat(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS)));
     config.setStationaryRadius(c.getFloat(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_RADIUS)));
     config.setDistanceFilter(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER)));
     config.setDesiredAccuracy(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY)));
@@ -125,6 +131,9 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
   private ContentValues getContentValues(Config config) throws NullPointerException {
     ContentValues values = new ContentValues();
     values.put(ConfigurationEntry._ID, 1);
+    values.put(ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT, config.getOriginLatitude());
+    values.put(ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG, config.getOriginLongitude());
+    values.put(ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS, config.getPerimeterRadius());
     values.put(ConfigurationEntry.COLUMN_NAME_RADIUS, config.getStationaryRadius());
     values.put(ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER, config.getDistanceFilter());
     values.put(ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY, config.getDesiredAccuracy());

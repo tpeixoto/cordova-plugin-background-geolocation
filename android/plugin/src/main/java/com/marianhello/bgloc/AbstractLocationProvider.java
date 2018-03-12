@@ -40,12 +40,17 @@ public abstract class AbstractLocationProvider implements LocationProvider {
     protected LocationService locationService;
     protected Location lastLocation;
     protected Config config;
+    protected Location originLocation;
 
     protected ToneGenerator toneGenerator;
 
     protected AbstractLocationProvider(LocationService locationService) {
         this.locationService = locationService;
         this.config = locationService.getConfig();
+        
+        Location originLocation = new Location();
+        originLocation.setLatitude(this.config.getOriginLatitude());
+        originLocation.setLongitude(this.config.getOriginLongitude());
     }
 
     public void onCreate() {
@@ -55,6 +60,15 @@ public abstract class AbstractLocationProvider implements LocationProvider {
     public void onDestroy() {
         toneGenerator.release();
         toneGenerator = null;
+    }
+
+    public void onCrossingPerimeter(boolean isInsidePerimeter) {
+        this.config = locationService.getPerimeterConfig(isInsidePerimeter);
+        locationService.setConfig(this.config);
+
+        if (isInsidePerimeter) {
+            locationService.createNotification();
+        }
     }
 
     /**

@@ -11,6 +11,9 @@ public final class SQLiteConfigurationContract {
     public static abstract class ConfigurationEntry implements BaseColumns {
         public static final String TABLE_NAME = "configuration";
         public static final String COLUMN_NAME_NULLABLE = "NULLHACK";
+        public static final String COLUMN_NAME_ORIGIN_LAT = "origin_latitude";
+        public static final String COLUMN_NAME_ORIGIN_LNG = "origin_longitude";
+        public static final String COLUMN_NAME_PERIMETER_RADIUS = "perimeter_radius";
         public static final String COLUMN_NAME_RADIUS = "stationary_radius";
         public static final String COLUMN_NAME_DISTANCE_FILTER = "distance_filter";
         public static final String COLUMN_NAME_DESIRED_ACCURACY = "desired_accuracy";

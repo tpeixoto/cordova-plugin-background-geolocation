@@ -37,7 +37,7 @@ public class Config implements Parcelable
 
     private float originLatitude = 0;
     private float originLongitude = 0;
-    private float perimeterRadius = 1;
+    private float perimeterRadius = 100;
 
     private float stationaryRadius = 50;
     private Integer distanceFilter = 500;
