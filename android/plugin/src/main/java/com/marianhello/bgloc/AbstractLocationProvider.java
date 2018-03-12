@@ -48,7 +48,7 @@ public abstract class AbstractLocationProvider implements LocationProvider {
         this.locationService = locationService;
         this.config = locationService.getConfig();
         
-        Location originLocation = new Location(PROVIDER_ID);
+        Location originLocation = new Location(PROVIDER_ID.toString());
         originLocation.setLatitude(this.config.getOriginLatitude());
         originLocation.setLongitude(this.config.getOriginLongitude());
     }
