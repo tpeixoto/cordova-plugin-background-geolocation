@@ -327,10 +327,12 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         if (location.distanceTo(originLocation) > config.getPerimeterRadius() && isInsidePerimeter) {
             isInsidePerimeter = false;
             onCrossingPerimeter(isInsidePerimeter);
+            log.info("Has left perimeter radius! Calling onCrossingPerimeter(false)");
         }
         else if (location.distanceTo(originLocation) < config.getPerimeterRadius() && !isInsidePerimeter) {
             isInsidePerimeter = true;
             onCrossingPerimeter(isInsidePerimeter);
+            log.info("Has entered perimeter radius! Calling onCrossingPerimeter(true)");
         }
     }
 
