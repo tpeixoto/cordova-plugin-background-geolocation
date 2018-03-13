@@ -13,7 +13,7 @@
 
 @implementation Config
 
-@synthesize stationaryRadius, distanceFilter, desiredAccuracy, isDebugging, activityType, stopOnTerminate, url, syncUrl, syncThreshold, httpHeaders, saveBatteryOnBackground, maxLocations, pauseLocationUpdates;
+@synthesize originLatitude, originLongitude, perimeterRadius, stationaryRadius, distanceFilter, desiredAccuracy, isDebugging, activityType, stopOnTerminate, url, syncUrl, syncThreshold, httpHeaders, saveBatteryOnBackground, maxLocations, pauseLocationUpdates;
 
 -(id) init {
     self = [super init];
@@ -22,6 +22,9 @@
         return self;
     }
 
+    originLatitude = 0;
+    originLongitude = 0;
+    perimeterRadius = 100;
     stationaryRadius = 50;
     distanceFilter = 500;
     desiredAccuracy = 100;
@@ -40,6 +43,15 @@
 {
     Config *instance = [[Config alloc] init];
 
+    if (isNotNull(config[@"originLatitude"])) {
+        instance.originLatitude = [config[@"originLatitude"] integerValue];
+    }
+    if (isNotNull(config[@"originLongitude"])) {
+        instance.originLongitude = [config[@"originLongitude"] integerValue];
+    }
+    if (isNotNull(config[@"perimeterRadius"])) {
+        instance.perimeterRadius = [config[@"perimeterRadius"] integerValue];
+    }
     if (isNotNull(config[@"stationaryRadius"])) {
         instance.stationaryRadius = [config[@"stationaryRadius"] integerValue];
     }

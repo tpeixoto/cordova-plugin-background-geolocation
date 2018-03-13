@@ -12,6 +12,9 @@
 
 @interface Config : NSObject
 
+@property NSInteger originLatitude;
+@property NSInteger originLongitude;
+@property NSInteger perimeterRadius;
 @property NSInteger stationaryRadius;
 @property NSInteger distanceFilter;
 @property NSInteger desiredAccuracy;

@@ -12,7 +12,7 @@ import com.marianhello.bgloc.data.sqlite.SQLiteConfigurationContract.Configurati
  */
 public class SQLiteOpenHelper10 extends android.database.sqlite.SQLiteOpenHelper {
     private static final String SQLITE_DATABASE_NAME = "cordova_bg_geolocation.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String REAL_TYPE = " REAL";
