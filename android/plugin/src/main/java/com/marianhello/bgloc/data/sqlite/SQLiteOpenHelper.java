@@ -46,6 +46,9 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     private static final String SQL_CREATE_CONFIG_TABLE =
         "CREATE TABLE " + ConfigurationEntry.TABLE_NAME + " (" +
         ConfigurationEntry._ID + " INTEGER PRIMARY KEY," +
+        ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT + REAL_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG + REAL_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS + REAL_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_RADIUS + REAL_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER + INTEGER_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY + INTEGER_TYPE + COMMA_SEP +

@@ -93,9 +93,9 @@ public class SQLiteOpenHelperTest {
         cursor.close();
 
         ContentValues configValues = new ContentValues();
-        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT, config.getStationaryRadius());
-        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG, config.getStationaryRadius());
-        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS, config.getStationaryRadius());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT, config.getOriginLatitude());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG, config.getOriginLongitude());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS, config.getPerimeterRadius());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_RADIUS, config.getStationaryRadius());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER, config.getDistanceFilter());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY, config.getDesiredAccuracy());
