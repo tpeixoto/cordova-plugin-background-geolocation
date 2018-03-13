@@ -37,6 +37,9 @@ public class SQLiteConfigurationDAOTest {
         SQLiteConfigurationDAO dao = new SQLiteConfigurationDAO(db);
 
         Config config = new Config();
+        config.setOriginLatitude(0);
+        config.setOriginLongitude(0);
+        config.setPerimeterRadius(100);
         config.setActivitiesInterval(1000);
         config.setDesiredAccuracy(200);
         config.setDistanceFilter(300);
