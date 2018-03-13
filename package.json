@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-2mundos-background-geolocation",
-  "version": "2.3.2-test.7",
+  "version": "2.3.2-test.8",
   "description": "Cordova Background Geolocation Plugin",
   "cordova": {
     "id": "cordova-plugin-2mundos-background-geolocation",

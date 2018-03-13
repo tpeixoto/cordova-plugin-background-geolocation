@@ -71,6 +71,7 @@ public class SQLiteOpenHelper10 extends android.database.sqlite.SQLiteOpenHelper
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        log.info("SQLiteOpenHelper10 onCreate");
         db.execSQL(SQL_CREATE_LOCATION_TABLE);
         Log.d(this.getClass().getName(), SQL_CREATE_LOCATION_TABLE);
         db.execSQL(SQL_CREATE_CONFIG_TABLE);
@@ -81,6 +82,7 @@ public class SQLiteOpenHelper10 extends android.database.sqlite.SQLiteOpenHelper
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
+        log.info("SQLiteOpenHelper10 onUpgrade");
         db.execSQL(SQL_DELETE_LOCATION_TABLE);
         Log.d(this.getClass().getName(), SQL_DELETE_LOCATION_TABLE);
         db.execSQL(SQL_DELETE_CONFIG_TABLE);
@@ -90,6 +92,7 @@ public class SQLiteOpenHelper10 extends android.database.sqlite.SQLiteOpenHelper
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        log.info("SQLiteOpenHelper10 onDowngrade - old version: " + oldVersion + ", newVersion: " + newVersion);
         onUpgrade(db, oldVersion, newVersion);
     }
 }
