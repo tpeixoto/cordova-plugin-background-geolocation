@@ -93,6 +93,9 @@ public class SQLiteOpenHelperTest {
         cursor.close();
 
         ContentValues configValues = new ContentValues();
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT, config.getStationaryRadius());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG, config.getStationaryRadius());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS, config.getStationaryRadius());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_RADIUS, config.getStationaryRadius());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER, config.getDistanceFilter());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY, config.getDesiredAccuracy());
@@ -162,6 +165,9 @@ public class SQLiteOpenHelperTest {
         cursor = db.query(SQLiteConfigurationContract.ConfigurationEntry.TABLE_NAME, null, null, null, null, null, null);
         columnNames = Arrays.asList(cursor.getColumnNames());
 
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_RADIUS)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY)));

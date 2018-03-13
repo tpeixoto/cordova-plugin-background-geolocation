@@ -319,10 +319,10 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         handleLocation(location);
 
         log.info("Origin lat: " + originLocation.getLatitude() + 
-                 "Origin lng: " + originLocation.getLongitude() +
-                 "Distance to origin: " + location.distanceTo(originLocation) +
+                 ", Origin lng: " + originLocation.getLongitude() +
+                 ", Distance to origin: " + location.distanceTo(originLocation) +
                  ", Perimeter radius: " + config.getPerimeterRadius() + 
-                 ", Is inside: " + (location.distanceTo(originLocation) > config.getPerimeterRadius()));
+                 ", Is inside: " + (location.distanceTo(originLocation) < config.getPerimeterRadius()));
 
         if (location.distanceTo(originLocation) > config.getPerimeterRadius() && isInsidePerimeter) {
             isInsidePerimeter = false;

@@ -67,6 +67,9 @@ public class SQLiteConfigurationDAOTest {
 
         try {
             Config storedConfig = dao.retrieveConfiguration();
+            Assert.assertEquals(0, storedConfig.getOriginLatitude(), 0);
+            Assert.assertEquals(0, storedConfig.getOriginLongitude(), 0);
+            Assert.assertEquals(200, storedConfig.getPerimeterRadius(), 0);
             Assert.assertEquals(1000, storedConfig.getActivitiesInterval().intValue());
             Assert.assertEquals(200, storedConfig.getDesiredAccuracy().intValue());
             Assert.assertEquals(300, storedConfig.getDistanceFilter().intValue());
