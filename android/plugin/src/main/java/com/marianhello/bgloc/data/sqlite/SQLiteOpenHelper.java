@@ -118,7 +118,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        log.info("SQLiteOpenHelper onCreate");
+        Log.v("SQLiteOpenHelper onCreate");
         Log.d(TAG, "Creating db: " + this.getDatabaseName());
         execAndLogSql(db, SQL_CREATE_LOCATION_TABLE);
         execAndLogSql(db, SQL_CREATE_CONFIG_TABLE);
@@ -128,7 +128,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        log.info("SQLiteOpenHelper onUpgrade - old version: " + oldVersion + ", newVersion: " + newVersion);
+        Log.v("SQLiteOpenHelper onUpgrade - old version: " + oldVersion + ", newVersion: " + newVersion);
         Log.d(this.getClass().getName(), "Upgrading database oldVersion: " + oldVersion + " newVersion: " + newVersion);
 
         ArrayList<String> alterSql = new ArrayList<String>();
@@ -176,7 +176,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        log.info("SQLiteOpenHelper onDowngrade - old version: " + oldVersion + ", newVersion: " + newVersion);
+        Log.v("SQLiteOpenHelper onDowngrade - old version: " + oldVersion + ", newVersion: " + newVersion);
         // we don't support db downgrade yet, instead we drop table and start over
         execAndLogSql(db, SQL_DROP_LOCATION_TABLE);
         execAndLogSql(db, SQL_DROP_CONFIG_TABLE);
