@@ -297,7 +297,7 @@ public class LocationService extends Service {
 
     protected void createNotification() {
             // Build a Notification required for running service in foreground.
-            builder = new NotificationCompat.Builder(this);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setContentTitle(config.getNotificationTitle());
             builder.setContentText(config.getNotificationText());
             if (config.getSmallNotificationIcon() != null) {
