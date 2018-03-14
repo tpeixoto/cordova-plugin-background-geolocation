@@ -318,8 +318,7 @@ public class LocationService extends Service {
             builder.setContentIntent(contentIntent);
 
             Notification notification = builder.build();
-            notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
-            //notificationManager.notify("BgTracking", notification);
+            notification.flags |= Notification.FLAG_AUTO_CANCEL;//Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR | ;
             startForeground(notificationStartId, notification);
     }
 
