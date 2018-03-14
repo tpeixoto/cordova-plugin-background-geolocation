@@ -112,7 +112,7 @@ public class LocationService extends Service {
     private Account syncAccount;
     private Boolean hasConnectivity = true;
 
-    private NotificationManager notificationManager;
+    private NotificationManagerCompat notificationManager;
     private Notification trackingNotification;
     private Integer notificationStartId;
 
@@ -321,16 +321,17 @@ public class LocationService extends Service {
             trackingNotification = builder.build();
             trackingNotification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
 
-            notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager = NotificationManagerCompat.from(this);
+            //notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
             //startForeground(notificationStartId, notification);
     }
 
     protected void dismissNotification() {
         trackingNotification.flags = Notification.FLAG_AUTO_CANCEL;
-        NotificationManagerCompat.notify("BgTracking", notificationStartId, trackingNotification);
+        notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
 
-        notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        //notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel("BgTracking", notificationStartId);
     }
 
