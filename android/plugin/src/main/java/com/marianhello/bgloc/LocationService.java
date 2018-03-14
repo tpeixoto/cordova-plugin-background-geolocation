@@ -112,9 +112,9 @@ public class LocationService extends Service {
     private Account syncAccount;
     private Boolean hasConnectivity = true;
 
-    private NotificationManager notificationManager;
+    //private NotificationManager notificationManager;
     private Notification trackingNotification;
-    private NotificationCompat.Builder builder;
+    //private NotificationCompat.Builder builder;
     private Integer notificationStartId;
 
     private org.slf4j.Logger log;
@@ -320,21 +320,24 @@ public class LocationService extends Service {
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             builder.setContentIntent(contentIntent);
             trackingNotification = builder.build();
+            trackingNotification.flags = Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR | Notification.FLAG_ONLY_ALERT_ONCE;
             //startForeground(notificationStartId, notification);
     }
 
     protected void showNotification() {
-        trackingNotification.flags = Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR | Notification.FLAG_ONLY_ALERT_ONCE;
 
-        notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
+        // notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        // notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
+        startForeground(notificationStartId, trackingNotification);
 }
 
     protected void dismissNotification() {
-        trackingNotification.flags = Notification.FLAG_AUTO_CANCEL;
+        // trackingNotification.flags = Notification.FLAG_AUTO_CANCEL;
 
-        notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
-        notificationManager.cancelAll();
+        // notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
+        // notificationManager.cancel("BgTracking", notificationStartId);
+
+        stopForeground(true);
     }
 
     protected int getAppResource(String name, String type) {
