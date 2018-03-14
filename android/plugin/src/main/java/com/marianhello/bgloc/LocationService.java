@@ -492,6 +492,7 @@ public class LocationService extends Service {
 
     public void setConfig(Config config) {
         this.config = config;
+        log.info("SET CONFIG - STATIONARY RADIUS: " + this.config.getStationaryRadius() + ", DISTANCE FILTER: " + this.config.getDistanceFilter());
     }
 
     private class PostLocationTask extends AsyncTask<BackgroundLocation, Integer, Boolean> {
