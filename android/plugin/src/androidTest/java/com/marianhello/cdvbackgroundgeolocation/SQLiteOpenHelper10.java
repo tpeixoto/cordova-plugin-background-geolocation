@@ -43,8 +43,10 @@ public class SQLiteOpenHelper10 extends android.database.sqlite.SQLiteOpenHelper
                     ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER + INTEGER_TYPE + COMMA_SEP +
                     ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY + INTEGER_TYPE + COMMA_SEP +
                     ConfigurationEntry.COLUMN_NAME_DEBUG + INTEGER_TYPE + COMMA_SEP +
-                    ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE + TEXT_TYPE + COMMA_SEP +
-                    ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT + TEXT_TYPE + COMMA_SEP +
+                    ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE + TEXT_TYPE + COMMA_SEP +
+                    ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT + TEXT_TYPE + COMMA_SEP +
+                    ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE + TEXT_TYPE + COMMA_SEP +
+                    ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT + TEXT_TYPE + COMMA_SEP +
                     ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL + TEXT_TYPE + COMMA_SEP +
                     ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE + TEXT_TYPE + COMMA_SEP +
                     ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR + TEXT_TYPE + COMMA_SEP +

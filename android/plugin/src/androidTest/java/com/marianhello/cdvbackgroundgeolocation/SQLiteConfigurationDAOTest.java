@@ -57,8 +57,10 @@ public class SQLiteConfigurationDAOTest {
         config.setStartForeground(true);
         config.setSmallNotificationIcon("smallico");
         config.setLargeNotificationIcon("largeico");
-        config.setNotificationTitle("test");
-        config.setNotificationText("in progress");
+        config.setInsideNotificationTitle("test");
+        config.setInsideNotificationText("in progress");
+        config.setOutsideNotificationTitle("test");
+        config.setOutsideNotificationText("in progress");
         config.setNotificationIconColor("yellow");
 
         dao.persistConfiguration(config);
@@ -90,8 +92,10 @@ public class SQLiteConfigurationDAOTest {
             Assert.assertEquals(Boolean.TRUE, storedConfig.getStartForeground());
             Assert.assertEquals("smallico", storedConfig.getSmallNotificationIcon());
             Assert.assertEquals("largeico", storedConfig.getLargeNotificationIcon());
-            Assert.assertEquals("test", storedConfig.getNotificationTitle());
-            Assert.assertEquals("in progress", storedConfig.getNotificationText());
+            Assert.assertEquals("test", storedConfig.getInsideNotificationTitle());
+            Assert.assertEquals("in progress", storedConfig.getInsideNotificationText());
+            Assert.assertEquals("test", storedConfig.getOutsideNotificationTitle());
+            Assert.assertEquals("in progress", storedConfig.getOutsideNotificationText());
             Assert.assertEquals("yellow", storedConfig.getNotificationIconColor());
 
         } catch (JSONException e) {

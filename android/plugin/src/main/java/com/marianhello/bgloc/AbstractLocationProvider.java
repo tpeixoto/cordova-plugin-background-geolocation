@@ -65,12 +65,7 @@ public abstract class AbstractLocationProvider implements LocationProvider {
     public void onCrossingPerimeter(boolean isInsidePerimeter) {
         this.config = locationService.getPerimeterConfig(isInsidePerimeter);
         locationService.setConfig(this.config);
-
-        if (isInsidePerimeter) {
-            locationService.showNotification();
-        } else {
-            locationService.dismissNotification();
-        }
+        locationService.createNotification(isInsidePerimeter);
     }
 
     /**

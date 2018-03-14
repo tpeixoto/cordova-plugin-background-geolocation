@@ -257,36 +257,7 @@ public class LocationService extends Service {
         provider = spf.getInstance(config.getLocationProvider());
 
         if (config.getStartForeground()) {
-            // // Build a Notification required for running service in foreground.
-            // NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            // builder.setContentTitle(config.getNotificationTitle());
-            // builder.setContentText(config.getNotificationText());
-            // if (config.getSmallNotificationIcon() != null) {
-            //     builder.setSmallIcon(getDrawableResource(config.getSmallNotificationIcon()));
-            // } else {
-            //     builder.setSmallIcon(android.R.drawable.ic_menu_mylocation);
-            // }
-            // if (config.getLargeNotificationIcon() != null) {
-            //     builder.setLargeIcon(BitmapFactory.decodeResource(getApplication().getResources(), getDrawableResource(config.getLargeNotificationIcon())));
-            // }
-            // if (config.getNotificationIconColor() != null) {
-            //     builder.setColor(this.parseNotificationIconColor(config.getNotificationIconColor()));
-            // }
-
-            // // Add an onclick handler to the notification
-            // Context context = getApplicationContext();
-            // String packageName = context.getPackageName();
-            // Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-            // launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            // PendingIntent contentIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            // builder.setContentIntent(contentIntent);
-
-            // Notification notification = builder.build();
-            // notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
-            // startForeground(startId, notification);
-
-            createNotification();
-            showNotification();
+            createNotification(true);
         }
 
         provider.startRecording();
@@ -295,11 +266,11 @@ public class LocationService extends Service {
         return START_STICKY;
     }
 
-    protected void createNotification() {
+    protected void createNotification(boolean isInsidePerimeter) {
             // Build a Notification required for running service in foreground.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            builder.setContentTitle(config.getNotificationTitle());
-            builder.setContentText(config.getNotificationText());
+            builder.setContentTitle(isInsidePerimeter ? config.getInsideNotificationTitle() : config.getOutsideNotificationTitle());
+            builder.setContentText(isInsidePerimeter ? config.getInsideNotificationText() : config.getOutsideNotificationText());
             if (config.getSmallNotificationIcon() != null) {
                 builder.setSmallIcon(getDrawableResource(config.getSmallNotificationIcon()));
             } else {
@@ -321,24 +292,8 @@ public class LocationService extends Service {
             builder.setContentIntent(contentIntent);
             trackingNotification = builder.build();
             trackingNotification.flags = Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR | Notification.FLAG_ONLY_ALERT_ONCE;
-            //startForeground(notificationStartId, notification);
-    }
-
-    protected void showNotification() {
-
-        // notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        // notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
-        startForeground(notificationStartId, trackingNotification);
-}
-
-    protected void dismissNotification() {
-        // trackingNotification.flags = Notification.FLAG_AUTO_CANCEL;
-
-        // notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
-        // notificationManager.cancel("BgTracking", notificationStartId);
-
-        stopForeground(true);
-    }
+            startForeground(notificationStartId, trackingNotification);
+        }
 
     protected int getAppResource(String name, String type) {
         return getApplication().getResources().getIdentifier(name, type, getApplication().getPackageName());

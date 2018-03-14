@@ -155,13 +155,25 @@ export interface BackgroundGeolocationConfig {
      * ANDROID ONLY
      * Custom notification title in the drawer.
      */
-    notificationTitle?: string;
+    insideNotificationTitle?: string;
 
     /**
      * ANDROID ONLY
      * Custom notification text in the drawer.
      */
-    notificationText?: string;
+    insideNotificationText?: string;
+
+    /**
+     * ANDROID ONLY
+     * Custom notification title in the drawer.
+     */
+    outsideNotificationTitle?: string;
+
+    /**
+     * ANDROID ONLY
+     * Custom notification text in the drawer.
+     */
+    outsideNotificationText?: string;
 
     /**
      * ANDROID ONLY

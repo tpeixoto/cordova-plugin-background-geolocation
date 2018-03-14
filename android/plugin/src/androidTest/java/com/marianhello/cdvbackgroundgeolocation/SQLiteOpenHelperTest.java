@@ -75,8 +75,10 @@ public class SQLiteOpenHelperTest {
         config.setStartForeground(false);
         config.setSmallNotificationIcon("smallico");
         config.setLargeNotificationIcon("largeico");
-        config.setNotificationTitle("test");
-        config.setNotificationText("in progress");
+        config.setInsideNotificationTitle("test");
+        config.setInsideNotificationText("in progress");
+        config.setOutsideNotificationTitle("test");
+        config.setOutsideNotificationText("in progress");
         config.setNotificationIconColor("yellow");
 
         ContentValues locationValues = new ContentValues();
@@ -103,8 +105,10 @@ public class SQLiteOpenHelperTest {
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER, config.getDistanceFilter());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY, config.getDesiredAccuracy());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DEBUG, (config.isDebugging() == true) ? 1 : 0);
-        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE, config.getNotificationTitle());
-        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT, config.getNotificationText());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE, config.getInsideNotificationTitle());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT, config.getInsideNotificationText());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE, config.getOutsideNotificationTitle());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT, config.getOutsideNotificationText());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL, config.getSmallNotificationIcon());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE, config.getLargeNotificationIcon());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR, config.getNotificationIconColor());
@@ -175,8 +179,10 @@ public class SQLiteOpenHelperTest {
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DEBUG)));
-        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE)));
-        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR)));

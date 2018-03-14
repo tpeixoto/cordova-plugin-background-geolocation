@@ -18,8 +18,10 @@ public final class SQLiteConfigurationContract {
         public static final String COLUMN_NAME_DISTANCE_FILTER = "distance_filter";
         public static final String COLUMN_NAME_DESIRED_ACCURACY = "desired_accuracy";
         public static final String COLUMN_NAME_DEBUG = "debugging";
-        public static final String COLUMN_NAME_NOTIF_TITLE = "notification_title";
-        public static final String COLUMN_NAME_NOTIF_TEXT = "notification_text";
+        public static final String COLUMN_NAME_INSIDE_NOTIF_TITLE = "inside_notification_title";
+        public static final String COLUMN_NAME_INSIDE_NOTIF_TEXT = "inside_notification_text";
+        public static final String COLUMN_NAME_OUTSIDE_NOTIF_TITLE = "outside_notification_title";
+        public static final String COLUMN_NAME_OUTSIDE_NOTIF_TEXT = "outside_notification_text";
         public static final String COLUMN_NAME_NOTIF_ICON_LARGE = "notification_icon_large";
         public static final String COLUMN_NAME_NOTIF_ICON_SMALL = "notification_icon_small";
         public static final String COLUMN_NAME_NOTIF_COLOR = "notification_icon_color";

@@ -43,8 +43,10 @@ public class Config implements Parcelable
     private Integer distanceFilter = 500;
     private Integer desiredAccuracy = 100;
     private Boolean debug = false;
-    private String notificationTitle = "Background tracking";
-    private String notificationText = "ENABLED";
+    private String insideNotificationTitle = "Background tracking";
+    private String insideNotificationText = "ENABLED";
+    private String outsideNotificationTitle = "Background tracking";
+    private String outsideNotificationText = "ENABLED";
     private String notificationIconLarge;
     private String notificationIconSmall;
     private String notificationIconColor;
@@ -78,8 +80,10 @@ public class Config implements Parcelable
         out.writeInt(getDistanceFilter());
         out.writeInt(getDesiredAccuracy());
         out.writeValue(isDebugging());
-        out.writeString(getNotificationTitle());
-        out.writeString(getNotificationText());
+        out.writeString(getInsideNotificationTitle());
+        out.writeString(getInsideNotificationText());
+        out.writeString(getOutsideNotificationTitle());
+        out.writeString(getOutsideNotificationText());
         out.writeString(getLargeNotificationIcon());
         out.writeString(getSmallNotificationIcon());
         out.writeString(getNotificationIconColor());
@@ -119,8 +123,10 @@ public class Config implements Parcelable
         setDistanceFilter(in.readInt());
         setDesiredAccuracy(in.readInt());
         setDebugging((Boolean) in.readValue(null));
-        setNotificationTitle(in.readString());
-        setNotificationText(in.readString());
+        setInsideNotificationTitle(in.readString());
+        setInsideNotificationText(in.readString());
+        setOutsideNotificationTitle(in.readString());
+        setOutsideNotificationText(in.readString());
         setLargeNotificationIcon(in.readString());
         setSmallNotificationIcon(in.readString());
         setNotificationIconColor(in.readString());
@@ -206,20 +212,36 @@ public class Config implements Parcelable
         }
     }
 
-    public String getNotificationTitle() {
-        return notificationTitle;
+    public String getInsideNotificationTitle() {
+        return insideNotificationTitle;
     }
 
-    public void setNotificationTitle(String notificationTitle) {
-        this.notificationTitle = notificationTitle;
+    public void setInsideNotificationTitle(String notificationTitle) {
+        this.insideNotificationTitle = notificationTitle;
     }
 
-    public String getNotificationText() {
-        return notificationText;
+    public String getInsideNotificationText() {
+        return insideNotificationText;
     }
 
-    public void setNotificationText(String notificationText) {
-        this.notificationText = notificationText;
+    public void setInsideNotificationText(String notificationText) {
+        this.insideNotificationText = notificationText;
+    }
+
+    public String getOutsideNotificationTitle() {
+        return outsideNotificationTitle;
+    }
+
+    public void setOutsideNotificationTitle(String notificationTitle) {
+        this.outsideNotificationTitle = notificationTitle;
+    }
+
+    public String getOutsideNotificationText() {
+        return outsideNotificationText;
+    }
+
+    public void setOutsideNotificationText(String notificationText) {
+        this.outsideNotificationText = notificationText;
     }
 
     public String getLargeNotificationIcon () {
@@ -382,8 +404,10 @@ public class Config implements Parcelable
                 .append(" startOnBoot=").append(getStartOnBoot())
                 .append(" startForeground=").append(getStartForeground())
                 .append(" locationProvider=").append(getLocationProvider())
-                .append(" nTitle=").append(getNotificationTitle())
-                .append(" nText=").append(getNotificationText())
+                .append(" nInsideTitle=").append(getInsideNotificationTitle())
+                .append(" nInsideText=").append(getInsideNotificationText())
+                .append(" nOutsideTitle=").append(getOutsideNotificationTitle())
+                .append(" nOutsideText=").append(getOutsideNotificationText())
                 .append(" nIconLarge=").append(getLargeNotificationIcon())
                 .append(" nIconSmall=").append(getSmallNotificationIcon())
                 .append(" nIconColor=").append(getNotificationIconColor())
@@ -419,8 +443,10 @@ public class Config implements Parcelable
         config.setDistanceFilter(jObject.optInt("distanceFilter", config.getDistanceFilter()));
         config.setDesiredAccuracy(jObject.optInt("desiredAccuracy", config.getDesiredAccuracy()));
         config.setDebugging(jObject.optBoolean("debug", config.isDebugging()));
-        config.setNotificationTitle(jObject.optString("notificationTitle", config.getNotificationTitle()));
-        config.setNotificationText(jObject.optString("notificationText", config.getNotificationText()));
+        config.setInsideNotificationTitle(jObject.optString("insideNotificationTitle", config.getInsideNotificationTitle()));
+        config.setInsideNotificationText(jObject.optString("outsideNotificationText", config.getInsideNotificationText()));
+        config.setOutsideNotificationTitle(jObject.optString("insideNotificationTitle", config.getOutsideNotificationTitle()));
+        config.setOutsideNotificationText(jObject.optString("outsideNotificationText", config.getOutsideNotificationText()));
         config.setStopOnTerminate(jObject.optBoolean("stopOnTerminate", config.getStopOnTerminate()));
         config.setStartOnBoot(jObject.optBoolean("startOnBoot", config.getStartOnBoot()));
         config.setLocationProvider(jObject.optInt("locationProvider", config.getLocationProvider()));
@@ -450,8 +476,10 @@ public class Config implements Parcelable
         json.put("distanceFilter", getDistanceFilter());
         json.put("desiredAccuracy", getDesiredAccuracy());
         json.put("debug", isDebugging());
-        json.put("notificationTitle", getNotificationTitle());
-        json.put("notificationText", getNotificationText());
+        json.put("insideNotificationTitle", getInsideNotificationTitle());
+        json.put("insideNotificationText", getInsideNotificationText());
+        json.put("outsideNotificationTitle", getOutsideNotificationTitle());
+        json.put("outsideNotificationText", getOutsideNotificationText());
         json.put("notificationIconLarge", getLargeNotificationIcon());
         json.put("notificationIconSmall", getSmallNotificationIcon());
         json.put("notificationIconColor", getNotificationIconColor());

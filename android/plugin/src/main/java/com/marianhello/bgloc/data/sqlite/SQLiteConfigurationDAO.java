@@ -39,8 +39,10 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
       ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER,
       ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY,
       ConfigurationEntry.COLUMN_NAME_DEBUG,
-      ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE,
-      ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT,
+      ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE,
+      ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT,
+      ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE,
+      ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT,
       ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE,
       ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL,
       ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR,
@@ -106,8 +108,10 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     config.setDistanceFilter(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER)));
     config.setDesiredAccuracy(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY)));
     config.setDebugging( (c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_DEBUG)) == 1) ? true : false );
-    config.setNotificationTitle(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE)));
-    config.setNotificationText(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT)));
+    config.setInsideNotificationTitle(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE)));
+    config.setInsideNotificationText(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT)));
+    config.setOutsideNotificationTitle(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE)));
+    config.setOutsideNotificationText(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT)));
     config.setSmallNotificationIcon(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL)));
     config.setLargeNotificationIcon(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE)));
     config.setNotificationIconColor(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR)));
@@ -138,8 +142,10 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     values.put(ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER, config.getDistanceFilter());
     values.put(ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY, config.getDesiredAccuracy());
     values.put(ConfigurationEntry.COLUMN_NAME_DEBUG, (config.isDebugging() == true) ? 1 : 0);
-    values.put(ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE, config.getNotificationTitle());
-    values.put(ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT, config.getNotificationText());
+    values.put(ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE, config.getInsideNotificationTitle());
+    values.put(ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT, config.getInsideNotificationText());
+    values.put(ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE, config.getOutsideNotificationTitle());
+    values.put(ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT, config.getOutsideNotificationText());
     values.put(ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL, config.getSmallNotificationIcon());
     values.put(ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE, config.getLargeNotificationIcon());
     values.put(ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR, config.getNotificationIconColor());
