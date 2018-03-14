@@ -267,7 +267,7 @@ public class LocationService extends Service {
     }
 
     protected void createNotification(boolean isInsidePerimeter) {
-            stopForeground();
+            stopForeground(true);
 
             // Build a Notification required for running service in foreground.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
