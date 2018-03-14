@@ -266,13 +266,22 @@ public class LocationService extends Service {
         return START_STICKY;
     }
 
-    protected void createNotification(boolean isInsidePerimeter) {
+    protected void createNotification(Boolean isInsidePerimeter) {
             stopForeground(true);
 
             // Build a Notification required for running service in foreground.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            builder.setContentTitle(isInsidePerimeter ? config.getInsideNotificationTitle() : config.getOutsideNotificationTitle());
-            builder.setContentText(isInsidePerimeter ? config.getInsideNotificationText() : config.getOutsideNotificationText());
+
+            String notifTitle = isInsidePerimeter ? config.getInsideNotificationTitle() : config.getOutsideNotificationTitle();
+            String notifText = isInsidePerimeter ? config.getInsideNotificationText() : config.getOutsideNotificationText();
+
+            log.debug("getInsideNotificationTitle" + config.getInsideNotificationTitle() + ", getOutsideNotificationTitle: " + config.getOutsideNotificationTitle());
+            log.debug("getInsideNotificationText" + config.getInsideNotificationText() + ", getOutsideNotificationText: " + config.getOutsideNotificationText());
+            log.debug("notifTitle: " + notifTitle + ", notifText: " + notifText);
+
+            builder.setContentTitle(notifTitle);
+            builder.setContentText(notifText);
+
             if (config.getSmallNotificationIcon() != null) {
                 builder.setSmallIcon(getDrawableResource(config.getSmallNotificationIcon()));
             } else {
@@ -454,7 +463,7 @@ public class LocationService extends Service {
         return this.config;
     }
 
-    public Config getPerimeterConfig(boolean isInsidePerimeter) {
+    public Config getPerimeterConfig(Boolean isInsidePerimeter) {
         int configIndex = isInsidePerimeter == true ? 0 : 1;
         return this.perimeterConfigs[configIndex];
     }
