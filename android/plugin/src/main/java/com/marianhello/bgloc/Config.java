@@ -444,8 +444,8 @@ public class Config implements Parcelable
         config.setDesiredAccuracy(jObject.optInt("desiredAccuracy", config.getDesiredAccuracy()));
         config.setDebugging(jObject.optBoolean("debug", config.isDebugging()));
         config.setInsideNotificationTitle(jObject.optString("insideNotificationTitle", config.getInsideNotificationTitle()));
-        config.setInsideNotificationText(jObject.optString("outsideNotificationText", config.getInsideNotificationText()));
-        config.setOutsideNotificationTitle(jObject.optString("insideNotificationTitle", config.getOutsideNotificationTitle()));
+        config.setInsideNotificationText(jObject.optString("insideNotificationText", config.getInsideNotificationText()));
+        config.setOutsideNotificationTitle(jObject.optString("outsideNotificationTitle", config.getOutsideNotificationTitle()));
         config.setOutsideNotificationText(jObject.optString("outsideNotificationText", config.getOutsideNotificationText()));
         config.setStopOnTerminate(jObject.optBoolean("stopOnTerminate", config.getStopOnTerminate()));
         config.setStartOnBoot(jObject.optBoolean("startOnBoot", config.getStartOnBoot()));

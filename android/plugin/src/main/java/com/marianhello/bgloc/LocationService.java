@@ -267,16 +267,14 @@ public class LocationService extends Service {
     }
 
     protected void createNotification(Boolean isInsidePerimeter) {
-            stopForeground(true);
-
             // Build a Notification required for running service in foreground.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
             String notifTitle = isInsidePerimeter ? config.getInsideNotificationTitle() : config.getOutsideNotificationTitle();
             String notifText = isInsidePerimeter ? config.getInsideNotificationText() : config.getOutsideNotificationText();
 
-            log.debug("getInsideNotificationTitle" + config.getInsideNotificationTitle() + ", getOutsideNotificationTitle: " + config.getOutsideNotificationTitle());
-            log.debug("getInsideNotificationText" + config.getInsideNotificationText() + ", getOutsideNotificationText: " + config.getOutsideNotificationText());
+            log.debug("getInsideNotificationTitle: " + config.getInsideNotificationTitle() + ", getOutsideNotificationTitle: " + config.getOutsideNotificationTitle());
+            log.debug("getInsideNotificationText: " + config.getInsideNotificationText() + ", getOutsideNotificationText: " + config.getOutsideNotificationText());
             log.debug("notifTitle: " + notifTitle + ", notifText: " + notifText);
 
             builder.setContentTitle(notifTitle);
@@ -304,7 +302,11 @@ public class LocationService extends Service {
             trackingNotification = builder.build();
             trackingNotification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
             startForeground(notificationStartId, trackingNotification);
-        }
+    }
+
+    protected void refreshNotification(Boolean isInsidePerimeter) {
+        startForeground(notificationStartId, trackingNotification);
+    }
 
     protected int getAppResource(String name, String type) {
         return getApplication().getResources().getIdentifier(name, type, getApplication().getPackageName());
