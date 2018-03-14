@@ -267,6 +267,8 @@ public class LocationService extends Service {
     }
 
     protected void createNotification(boolean isInsidePerimeter) {
+            stopForeground();
+
             // Build a Notification required for running service in foreground.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
             builder.setContentTitle(isInsidePerimeter ? config.getInsideNotificationTitle() : config.getOutsideNotificationTitle());
@@ -291,7 +293,7 @@ public class LocationService extends Service {
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             builder.setContentIntent(contentIntent);
             trackingNotification = builder.build();
-            trackingNotification.flags = Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR | Notification.FLAG_ONLY_ALERT_ONCE;
+            trackingNotification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
             startForeground(notificationStartId, trackingNotification);
         }
 
