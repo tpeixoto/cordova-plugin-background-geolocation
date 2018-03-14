@@ -12,7 +12,6 @@ package com.marianhello.bgloc;
 import android.accounts.Account;
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.NotificationManagerCompat;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -113,7 +112,7 @@ public class LocationService extends Service {
     private Account syncAccount;
     private Boolean hasConnectivity = true;
 
-    private NotificationManagerCompat notificationManager;
+    private NotificationManager notificationManager;
     private Notification trackingNotification;
     private Integer notificationStartId;
 
@@ -322,18 +321,13 @@ public class LocationService extends Service {
             trackingNotification = builder.build();
             trackingNotification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
 
-            notificationManager = NotificationManagerCompat.from(this);
-            //notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
             //startForeground(notificationStartId, notification);
     }
 
     protected void dismissNotification() {
-        trackingNotification.flags = Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
-
-        //notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel("BgTracking", notificationStartId);
+        notificationManager.cancelAll();
     }
 
     protected int getAppResource(String name, String type) {
