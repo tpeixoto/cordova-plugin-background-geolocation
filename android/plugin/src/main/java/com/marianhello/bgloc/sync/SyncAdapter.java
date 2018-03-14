@@ -147,7 +147,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements Uploadin
         builder.setContentTitle("Syncing locations");
         builder.setContentText("Sync in progress");
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
-        notifyManager.notify(NOTIFICATION_ID, builder.build());
+        //notifyManager.notify(NOTIFICATION_ID, builder.build());
 
         try {
             int responseCode = HttpPostService.postFile(url, file, httpHeaders, this);
@@ -167,14 +167,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements Uploadin
             builder.setOngoing(false);
             builder.setProgress(0, 0, false);
             builder.setAutoCancel(true);
-            notifyManager.notify(NOTIFICATION_ID, builder.build());
+            //notifyManager.notify(NOTIFICATION_ID, builder.build());
             
             Handler h = new Handler(Looper.getMainLooper());
             long delayInMilliseconds = 5000;
             h.postDelayed(new Runnable() {
                 public void run() {
                     log.info("Notification cancelledAt: {}", System.currentTimeMillis());
-                    notifyManager.cancel(NOTIFICATION_ID);
+                    //notifyManager.cancel(NOTIFICATION_ID);
                 }
             }, delayInMilliseconds);
         }
@@ -190,6 +190,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements Uploadin
         builder.setContentText("Sync in progress");
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
         builder.setProgress(100, progress, false);
-        notifyManager.notify(NOTIFICATION_ID, builder.build());
+        //notifyManager.notify(NOTIFICATION_ID, builder.build());
     }
 }
