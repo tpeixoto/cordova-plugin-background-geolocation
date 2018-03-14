@@ -273,10 +273,6 @@ public class LocationService extends Service {
             String notifTitle = isInsidePerimeter ? config.getInsideNotificationTitle() : config.getOutsideNotificationTitle();
             String notifText = isInsidePerimeter ? config.getInsideNotificationText() : config.getOutsideNotificationText();
 
-            log.debug("getInsideNotificationTitle: " + config.getInsideNotificationTitle() + ", getOutsideNotificationTitle: " + config.getOutsideNotificationTitle());
-            log.debug("getInsideNotificationText: " + config.getInsideNotificationText() + ", getOutsideNotificationText: " + config.getOutsideNotificationText());
-            log.debug("notifTitle: " + notifTitle + ", notifText: " + notifText);
-
             builder.setContentTitle(notifTitle);
             builder.setContentText(notifText);
 
