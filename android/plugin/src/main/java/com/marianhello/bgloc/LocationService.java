@@ -114,6 +114,7 @@ public class LocationService extends Service {
 
     private NotificationManager notificationManager;
     private Notification trackingNotification;
+    private NotificationCompat.Builder builder;
     private Integer notificationStartId;
 
     private org.slf4j.Logger log;
@@ -285,6 +286,7 @@ public class LocationService extends Service {
             // startForeground(startId, notification);
 
             createNotification();
+            showNotification();
         }
 
         provider.startRecording();
@@ -295,7 +297,7 @@ public class LocationService extends Service {
 
     protected void createNotification() {
             // Build a Notification required for running service in foreground.
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            builder = new NotificationCompat.Builder(this);
             builder.setContentTitle(config.getNotificationTitle());
             builder.setContentText(config.getNotificationText());
             if (config.getSmallNotificationIcon() != null) {
@@ -317,16 +319,21 @@ public class LocationService extends Service {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             builder.setContentIntent(contentIntent);
-
             trackingNotification = builder.build();
-            trackingNotification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
-
-            notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
             //startForeground(notificationStartId, notification);
     }
 
+    protected void showNotification() {
+        trackingNotification.flags = Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR | Notification.FLAG_ONLY_ALERT_ONCE;
+
+        notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
+}
+
     protected void dismissNotification() {
+        trackingNotification.flags = Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify("BgTracking", notificationStartId, trackingNotification);
         notificationManager.cancelAll();
     }
 
