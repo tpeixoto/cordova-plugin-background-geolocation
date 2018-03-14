@@ -252,7 +252,6 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
 
     public void onLocationChanged(Location location) {
         log.debug("Location change: {} isMoving={}", location.toString(), isMoving);
-        log.info("DISTANCE FILTER: " + config.getDistanceFilter());
 
         if (!isMoving && !isAcquiringStationaryLocation && stationaryLocation==null) {
             // Perhaps our GPS signal was interupted, re-acquire a stationaryLocation now.

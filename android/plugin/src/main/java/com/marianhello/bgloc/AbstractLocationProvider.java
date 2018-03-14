@@ -68,6 +68,8 @@ public abstract class AbstractLocationProvider implements LocationProvider {
 
         if (isInsidePerimeter) {
             locationService.createNotification();
+        } else {
+            locationService.dismissNotification();
         }
     }
 
