@@ -261,7 +261,12 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         if (config.isDebugging()) {
             Toast.makeText(locationService, "mv:" + isMoving + ",acy:" + location.getAccuracy() + ",v:" + location.getSpeed() + ",df:" + scaledDistanceFilter, Toast.LENGTH_LONG).show();
         }
-        if (isAcquiringStationaryLocation) {
+
+        if (isFirstLocation) {
+            log.info("IS FIRST LOCATION");
+            //This will bypass the other conditions and let the very first location be immediately posted to the API.
+            isFirstLocation = false;
+        } else if (isAcquiringStationaryLocation) {
             if (stationaryLocation == null || stationaryLocation.getAccuracy() > location.getAccuracy()) {
                 stationaryLocation = location;
             }
@@ -320,6 +325,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
             log.info("LOCATION CHANGED RETURN - LAST ELSE IF - stationary not null");
             return;
         }
+
         // Go ahead and cache, push to server
         lastLocation = location;
         handleLocation(location);

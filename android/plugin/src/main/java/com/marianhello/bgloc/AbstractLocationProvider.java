@@ -39,14 +39,17 @@ public abstract class AbstractLocationProvider implements LocationProvider {
     protected Integer PROVIDER_ID;
     protected LocationService locationService;
     protected Location lastLocation;
-    protected Config config;
     protected Location originLocation;
+    protected Config config;
+    protected Boolean isFirstLocation;
 
     protected ToneGenerator toneGenerator;
 
     protected AbstractLocationProvider(LocationService locationService) {
         this.locationService = locationService;
         this.config = locationService.getConfig();
+
+        this.isFirstLocation = true;
 
         this.lastLocation = new Location("last_location");
         this.lastLocation.setLatitude(Float.MAX_VALUE);
