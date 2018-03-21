@@ -276,6 +276,8 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
                 if (config.isDebugging()) {
                     startTone(Tone.BEEP);
                 }
+
+                log.info("LOCATION CHANGED RETURN - isAcquiringStationaryLocation");
                 return;
             }
         } else if (isAcquiringSpeed) {
@@ -291,6 +293,8 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
                 if (config.isDebugging()) {
                     startTone(Tone.BEEP);
                 }
+
+                log.info("LOCATION CHANGED RETURN - isAcquiringSpeed");
                 return;
             }
         } else if (isMoving) {
@@ -309,9 +313,11 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
                 setPace(true);
             }
             if (location.distanceTo(lastLocation) < config.getDistanceFilter()) {
+                log.info("LOCATION CHANGED RETURN - isMoving - Distance to last was shorter than filter");
                 return;
             }
         } else if (stationaryLocation != null) {
+            log.info("LOCATION CHANGED RETURN - LAST ELSE IF - stationary not null");
             return;
         }
         // Go ahead and cache, push to server
