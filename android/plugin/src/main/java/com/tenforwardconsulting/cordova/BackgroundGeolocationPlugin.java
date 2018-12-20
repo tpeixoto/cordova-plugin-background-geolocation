@@ -91,7 +91,11 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
     private Boolean isBound = false;
     private Boolean isServiceRunning = false;
 
-    private Config config;
+    private Config insidePerimeterConfig;
+    private Config outsidePerimeterConfig;
+    private Config currentPerimeterConfig;
+
+    //private Config config;
     private CallbackContext callbackContext;
     private ArrayList<CallbackContext> stationaryContexts = new ArrayList<CallbackContext>();
     private CallbackContext actionStartCallbackContext;
@@ -247,7 +251,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
                 public void run() {
                     log.info("Executing start action");
 
-                    if (config == null) {
+                    if (currentPerimeterConfig == null) {
                         log.warn("Attempt to start unconfigured service");
                         callbackContext.error("Plugin not configured. Please call configure method first.");
                         return;
@@ -291,8 +295,12 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             executorService.execute(new Runnable() {
                 public void run() {
                     try {
-                        config = Config.fromJSONObject(data.getJSONObject(0));
-                        persistConfiguration(config);
+                        insidePerimeterConfig = Config.fromJSONObject(data.getJSONObject(0));
+                        outsidePerimeterConfig = Config.fromJSONObject(data.getJSONObject(1));
+
+                        currentPerimeterConfig = insidePerimeterConfig;
+
+                        persistConfiguration(currentPerimeterConfig);
                         // callbackContext.success(); //we cannot do this
                     } catch (JSONException e) {
                         log.error("Configuration error: {}", e.getMessage());
@@ -474,7 +482,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         log.info("Destroying plugin");
         unregisterLocationModeChangeReceiver();
         doUnbindService();
-        if (config != null && config.getStopOnTerminate()) {
+        if (currentPerimeterConfig != null && currentPerimeterConfig.getStopOnTerminate()) {
             stopBackgroundService();
         }
         super.onDestroy();
@@ -510,7 +518,9 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             log.info("Starting bg service");
             Activity activity = getActivity();
             Intent locationServiceIntent = new Intent(activity, LocationService.class);
-            locationServiceIntent.putExtra("config", config);
+            locationServiceIntent.putExtra("insidePerimeterConfig", insidePerimeterConfig);
+            locationServiceIntent.putExtra("outsidePerimeterConfig", outsidePerimeterConfig);
+            locationServiceIntent.putExtra("currentPerimeterConfig", currentPerimeterConfig);
             locationServiceIntent.addFlags(Intent.FLAG_FROM_BACKGROUND);
             // start service to keep service running even if no clients are bound to it
             activity.startService(locationServiceIntent);
@@ -533,7 +543,9 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
             log.info("Binding to bg service");
             Activity activity = getActivity();
             Intent locationServiceIntent = new Intent(activity, LocationService.class);
-            locationServiceIntent.putExtra("config", config);
+            locationServiceIntent.putExtra("insidePerimeterConfig", insidePerimeterConfig);
+            locationServiceIntent.putExtra("outsidePerimeterConfig", outsidePerimeterConfig);
+            locationServiceIntent.putExtra("currentPerimeterConfig", currentPerimeterConfig);
             activity.bindService(locationServiceIntent, mConnection, Context.BIND_IMPORTANT);
         }
     }
@@ -637,10 +649,9 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         dao.deleteAllLocations();
     }
 
-    public void persistConfiguration(Config config) throws NullPointerException {
+    public void persistConfiguration(Config currentPerimeterConfig) throws NullPointerException {
         ConfigurationDAO dao = DAOFactory.createConfigurationDAO(getContext());
-
-        dao.persistConfiguration(config);
+        dao.persistConfiguration(currentPerimeterConfig);
     }
 
     public JSONObject retrieveConfiguration() throws JSONException {
@@ -649,6 +660,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
         if (config != null) {
             return config.toJSONObject();
         }
+
         return null;
     }
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     private static final String TAG = SQLiteOpenHelper.class.getName();
     public static final String SQLITE_DATABASE_NAME = "cordova_bg_geolocation.db";
-    public static final int DATABASE_VERSION = 12;
+    public static final int DATABASE_VERSION = 13;
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
@@ -46,12 +46,17 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     private static final String SQL_CREATE_CONFIG_TABLE =
         "CREATE TABLE " + ConfigurationEntry.TABLE_NAME + " (" +
         ConfigurationEntry._ID + " INTEGER PRIMARY KEY," +
+        ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT + REAL_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG + REAL_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS + REAL_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_RADIUS + REAL_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER + INTEGER_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY + INTEGER_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_DEBUG + INTEGER_TYPE + COMMA_SEP +
-        ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE + TEXT_TYPE + COMMA_SEP +
-        ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT + TEXT_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE + TEXT_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT + TEXT_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE + TEXT_TYPE + COMMA_SEP +
+        ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT + TEXT_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL + TEXT_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE + TEXT_TYPE + COMMA_SEP +
         ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR + TEXT_TYPE + COMMA_SEP +
@@ -115,6 +120,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.v(this.getClass().getName(), "SQLiteOpenHelper onCreate");
         Log.d(TAG, "Creating db: " + this.getDatabaseName());
         execAndLogSql(db, SQL_CREATE_LOCATION_TABLE);
         execAndLogSql(db, SQL_CREATE_CONFIG_TABLE);
@@ -124,6 +130,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.v(this.getClass().getName(), "SQLiteOpenHelper onUpgrade - old version: " + oldVersion + ", newVersion: " + newVersion);
         Log.d(this.getClass().getName(), "Upgrading database oldVersion: " + oldVersion + " newVersion: " + newVersion);
 
         ArrayList<String> alterSql = new ArrayList<String>();
@@ -171,6 +178,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.v(this.getClass().getName(), "SQLiteOpenHelper onDowngrade - old version: " + oldVersion + ", newVersion: " + newVersion);
         // we don't support db downgrade yet, instead we drop table and start over
         execAndLogSql(db, SQL_DROP_LOCATION_TABLE);
         execAndLogSql(db, SQL_DROP_CONFIG_TABLE);

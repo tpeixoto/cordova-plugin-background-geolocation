@@ -52,6 +52,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
     private static final Integer MAX_STATIONARY_ACQUISITION_ATTEMPTS = 5;
     private static final Integer MAX_SPEED_ACQUISITION_ATTEMPTS = 3;
 
+    private Boolean isInsidePerimeter = true;
     private Boolean isMoving = false;
     private Boolean isAcquiringStationaryLocation = false;
     private Boolean isAcquiringSpeed = false;
@@ -260,7 +261,11 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         if (config.isDebugging()) {
             Toast.makeText(locationService, "mv:" + isMoving + ",acy:" + location.getAccuracy() + ",v:" + location.getSpeed() + ",df:" + scaledDistanceFilter, Toast.LENGTH_LONG).show();
         }
-        if (isAcquiringStationaryLocation) {
+
+        if (isFirstLocation) {
+            //This will bypass the other conditions and let the very first location be immediately posted to the API.
+            isFirstLocation = false;
+        } else if (isAcquiringStationaryLocation) {
             if (stationaryLocation == null || stationaryLocation.getAccuracy() > location.getAccuracy()) {
                 stationaryLocation = location;
             }
@@ -275,6 +280,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
                 if (config.isDebugging()) {
                     startTone(Tone.BEEP);
                 }
+
                 return;
             }
         } else if (isAcquiringSpeed) {
@@ -290,6 +296,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
                 if (config.isDebugging()) {
                     startTone(Tone.BEEP);
                 }
+
                 return;
             }
         } else if (isMoving) {
@@ -313,9 +320,27 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
         } else if (stationaryLocation != null) {
             return;
         }
+
         // Go ahead and cache, push to server
         lastLocation = location;
         handleLocation(location);
+
+        log.info("Origin lat: " + originLocation.getLatitude() + 
+                 ", Origin lng: " + originLocation.getLongitude() +
+                 ", Distance to origin: " + location.distanceTo(originLocation) +
+                 ", Perimeter radius: " + config.getPerimeterRadius() + 
+                 ", Is inside: " + (location.distanceTo(originLocation) < config.getPerimeterRadius()));
+
+        if (location.distanceTo(originLocation) > config.getPerimeterRadius() && isInsidePerimeter) {
+            isInsidePerimeter = false;
+            onCrossingPerimeter(isInsidePerimeter);
+            log.info("Has left perimeter radius! Calling onCrossingPerimeter(false)");
+        }
+        else if (location.distanceTo(originLocation) < config.getPerimeterRadius() && !isInsidePerimeter) {
+            isInsidePerimeter = true;
+            onCrossingPerimeter(isInsidePerimeter);
+            log.info("Has entered perimeter radius! Calling onCrossingPerimeter(true)");
+        }
     }
 
     public void resetStationaryAlarm() {

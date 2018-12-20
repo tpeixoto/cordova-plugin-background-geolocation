@@ -57,6 +57,9 @@ public class SQLiteOpenHelperTest {
         BackgroundLocation bgLocation = new BackgroundLocation(location);
 
         Config config = new Config();
+        config.setOriginLatitude(0);
+        config.setOriginLongitude(0);
+        config.setPerimeterRadius(100);
         config.setActivitiesInterval(1000);
         config.setDesiredAccuracy(200);
         config.setDistanceFilter(300);
@@ -72,8 +75,10 @@ public class SQLiteOpenHelperTest {
         config.setStartForeground(false);
         config.setSmallNotificationIcon("smallico");
         config.setLargeNotificationIcon("largeico");
-        config.setNotificationTitle("test");
-        config.setNotificationText("in progress");
+        config.setInsideNotificationTitle("test");
+        config.setInsideNotificationText("in progress");
+        config.setOutsideNotificationTitle("test");
+        config.setOutsideNotificationText("in progress");
         config.setNotificationIconColor("yellow");
 
         ContentValues locationValues = new ContentValues();
@@ -93,12 +98,17 @@ public class SQLiteOpenHelperTest {
         cursor.close();
 
         ContentValues configValues = new ContentValues();
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT, config.getOriginLatitude());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG, config.getOriginLongitude());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS, config.getPerimeterRadius());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_RADIUS, config.getStationaryRadius());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER, config.getDistanceFilter());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY, config.getDesiredAccuracy());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DEBUG, (config.isDebugging() == true) ? 1 : 0);
-        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE, config.getNotificationTitle());
-        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT, config.getNotificationText());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE, config.getInsideNotificationTitle());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT, config.getInsideNotificationText());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE, config.getOutsideNotificationTitle());
+        configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT, config.getOutsideNotificationText());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL, config.getSmallNotificationIcon());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE, config.getLargeNotificationIcon());
         configValues.put(SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR, config.getNotificationIconColor());
@@ -162,12 +172,17 @@ public class SQLiteOpenHelperTest {
         cursor = db.query(SQLiteConfigurationContract.ConfigurationEntry.TABLE_NAME, null, null, null, null, null, null);
         columnNames = Arrays.asList(cursor.getColumnNames());
 
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LAT)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_ORIGIN_LNG)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_PERIMETER_RADIUS)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_RADIUS)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DISTANCE_FILTER)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DESIRED_ACCURACY)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_DEBUG)));
-        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TITLE)));
-        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_TEXT)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TITLE)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_INSIDE_NOTIF_TEXT)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TITLE)));
+        Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_OUTSIDE_NOTIF_TEXT)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_LARGE)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_ICON_SMALL)));
         Assert.assertTrue(columnNames.contains((SQLiteConfigurationContract.ConfigurationEntry.COLUMN_NAME_NOTIF_COLOR)));

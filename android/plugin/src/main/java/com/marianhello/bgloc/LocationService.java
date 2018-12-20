@@ -11,6 +11,7 @@ package com.marianhello.bgloc;
 
 import android.accounts.Account;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -106,9 +107,15 @@ public class LocationService extends Service {
 
     private LocationDAO dao;
     private Config config;
+    private Config[] perimeterConfigs;
     private LocationProvider provider;
     private Account syncAccount;
     private Boolean hasConnectivity = true;
+
+    //private NotificationManager notificationManager;
+    private Notification trackingNotification;
+    //private NotificationCompat.Builder builder;
+    private Integer notificationStartId;
 
     private org.slf4j.Logger log;
 
@@ -211,6 +218,8 @@ public class LocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         log.info("Received start startId: {} intent: {}", startId, intent);
 
+        notificationStartId = startId;
+
         if (provider != null) {
             provider.onDestroy();
         }
@@ -225,10 +234,20 @@ public class LocationService extends Service {
                 config = new Config(); //using default config
             }
         } else {
-            if (intent.hasExtra("config")) {
-                config = intent.getParcelableExtra("config");
+            if (intent.hasExtra("currentPerimeterConfig")) {
+                config = intent.getParcelableExtra("currentPerimeterConfig");
             } else {
                 config = new Config(); //using default config
+            }
+
+            perimeterConfigs = new Config[2];
+            
+            if (intent.hasExtra("insidePerimeterConfig") && intent.hasExtra("outsidePerimeterConfig")) {
+                perimeterConfigs[0] = intent.getParcelableExtra("insidePerimeterConfig");
+                perimeterConfigs[1] = intent.getParcelableExtra("outsidePerimeterConfig");
+            } else {
+                perimeterConfigs[0] = new Config();
+                perimeterConfigs[1] = new Config();
             }
         }
 
@@ -238,10 +257,25 @@ public class LocationService extends Service {
         provider = spf.getInstance(config.getLocationProvider());
 
         if (config.getStartForeground()) {
+            createNotification(true);
+        }
+
+        provider.startRecording();
+
+        //We want this service to continue running until it is explicitly stopped
+        return START_STICKY;
+    }
+
+    protected void createNotification(Boolean isInsidePerimeter) {
             // Build a Notification required for running service in foreground.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            builder.setContentTitle(config.getNotificationTitle());
-            builder.setContentText(config.getNotificationText());
+
+            String notifTitle = isInsidePerimeter ? config.getInsideNotificationTitle() : config.getOutsideNotificationTitle();
+            String notifText = isInsidePerimeter ? config.getInsideNotificationText() : config.getOutsideNotificationText();
+
+            builder.setContentTitle(notifTitle);
+            builder.setContentText(notifText);
+
             if (config.getSmallNotificationIcon() != null) {
                 builder.setSmallIcon(getDrawableResource(config.getSmallNotificationIcon()));
             } else {
@@ -261,16 +295,13 @@ public class LocationService extends Service {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
             builder.setContentIntent(contentIntent);
+            trackingNotification = builder.build();
+            trackingNotification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
+            startForeground(notificationStartId, trackingNotification);
+    }
 
-            Notification notification = builder.build();
-            notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE | Notification.FLAG_NO_CLEAR;
-            startForeground(startId, notification);
-        }
-
-        provider.startRecording();
-
-        //We want this service to continue running until it is explicitly stopped
-        return START_STICKY;
+    protected void refreshNotification(Boolean isInsidePerimeter) {
+        startForeground(notificationStartId, trackingNotification);
     }
 
     protected int getAppResource(String name, String type) {
@@ -430,8 +461,14 @@ public class LocationService extends Service {
         return this.config;
     }
 
+    public Config getPerimeterConfig(Boolean isInsidePerimeter) {
+        int configIndex = isInsidePerimeter == true ? 0 : 1;
+        return this.perimeterConfigs[configIndex];
+    }
+
     public void setConfig(Config config) {
         this.config = config;
+        log.info("Setting config - Stationary Radius: " + this.config.getStationaryRadius() + ", Distance Filter: " + this.config.getDistanceFilter());
     }
 
     private class PostLocationTask extends AsyncTask<BackgroundLocation, Integer, Boolean> {

@@ -37,6 +37,9 @@ public class SQLiteConfigurationDAOTest {
         SQLiteConfigurationDAO dao = new SQLiteConfigurationDAO(db);
 
         Config config = new Config();
+        config.setOriginLatitude(0);
+        config.setOriginLongitude(0);
+        config.setPerimeterRadius(100);
         config.setActivitiesInterval(1000);
         config.setDesiredAccuracy(200);
         config.setDistanceFilter(300);
@@ -54,8 +57,10 @@ public class SQLiteConfigurationDAOTest {
         config.setStartForeground(true);
         config.setSmallNotificationIcon("smallico");
         config.setLargeNotificationIcon("largeico");
-        config.setNotificationTitle("test");
-        config.setNotificationText("in progress");
+        config.setInsideNotificationTitle("test");
+        config.setInsideNotificationText("in progress");
+        config.setOutsideNotificationTitle("test");
+        config.setOutsideNotificationText("in progress");
         config.setNotificationIconColor("yellow");
 
         dao.persistConfiguration(config);
@@ -67,6 +72,9 @@ public class SQLiteConfigurationDAOTest {
 
         try {
             Config storedConfig = dao.retrieveConfiguration();
+            Assert.assertEquals(0, storedConfig.getOriginLatitude(), 0);
+            Assert.assertEquals(0, storedConfig.getOriginLongitude(), 0);
+            Assert.assertEquals(100, storedConfig.getPerimeterRadius(), 0);
             Assert.assertEquals(1000, storedConfig.getActivitiesInterval().intValue());
             Assert.assertEquals(200, storedConfig.getDesiredAccuracy().intValue());
             Assert.assertEquals(300, storedConfig.getDistanceFilter().intValue());
@@ -84,8 +92,10 @@ public class SQLiteConfigurationDAOTest {
             Assert.assertEquals(Boolean.TRUE, storedConfig.getStartForeground());
             Assert.assertEquals("smallico", storedConfig.getSmallNotificationIcon());
             Assert.assertEquals("largeico", storedConfig.getLargeNotificationIcon());
-            Assert.assertEquals("test", storedConfig.getNotificationTitle());
-            Assert.assertEquals("in progress", storedConfig.getNotificationText());
+            Assert.assertEquals("test", storedConfig.getInsideNotificationTitle());
+            Assert.assertEquals("in progress", storedConfig.getInsideNotificationText());
+            Assert.assertEquals("test", storedConfig.getOutsideNotificationTitle());
+            Assert.assertEquals("in progress", storedConfig.getOutsideNotificationText());
             Assert.assertEquals("yellow", storedConfig.getNotificationIconColor());
 
         } catch (JSONException e) {

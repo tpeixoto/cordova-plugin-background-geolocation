@@ -35,12 +35,18 @@ public class Config implements Parcelable
     public static final String ACCOUNT_TYPE_RESOURCE = "account_type";
     public static final String CONTENT_AUTHORITY_RESOURCE = "content_authority";
 
+    private float originLatitude = 0;
+    private float originLongitude = 0;
+    private float perimeterRadius = 100;
+
     private float stationaryRadius = 50;
     private Integer distanceFilter = 500;
     private Integer desiredAccuracy = 100;
     private Boolean debug = false;
-    private String notificationTitle = "Background tracking";
-    private String notificationText = "ENABLED";
+    private String insideNotificationTitle = "Background tracking";
+    private String insideNotificationText = "ENABLED";
+    private String outsideNotificationTitle = "Background tracking";
+    private String outsideNotificationText = "ENABLED";
     private String notificationIconLarge;
     private String notificationIconSmall;
     private String notificationIconColor;
@@ -67,12 +73,17 @@ public class Config implements Parcelable
 
     // write your object's data to the passed-in Parcel
     public void writeToParcel(Parcel out, int flags) {
+        out.writeFloat(getOriginLatitude());
+        out.writeFloat(getOriginLongitude());
+        out.writeFloat(getPerimeterRadius());
         out.writeFloat(getStationaryRadius());
         out.writeInt(getDistanceFilter());
         out.writeInt(getDesiredAccuracy());
         out.writeValue(isDebugging());
-        out.writeString(getNotificationTitle());
-        out.writeString(getNotificationText());
+        out.writeString(getInsideNotificationTitle());
+        out.writeString(getInsideNotificationText());
+        out.writeString(getOutsideNotificationTitle());
+        out.writeString(getOutsideNotificationText());
         out.writeString(getLargeNotificationIcon());
         out.writeString(getSmallNotificationIcon());
         out.writeString(getNotificationIconColor());
@@ -105,12 +116,17 @@ public class Config implements Parcelable
     };
 
     private Config(Parcel in) {
+        setOriginLatitude(in.readFloat());
+        setOriginLongitude(in.readFloat());
+        setPerimeterRadius(in.readFloat());
         setStationaryRadius(in.readFloat());
         setDistanceFilter(in.readInt());
         setDesiredAccuracy(in.readInt());
         setDebugging((Boolean) in.readValue(null));
-        setNotificationTitle(in.readString());
-        setNotificationText(in.readString());
+        setInsideNotificationTitle(in.readString());
+        setInsideNotificationText(in.readString());
+        setOutsideNotificationTitle(in.readString());
+        setOutsideNotificationText(in.readString());
         setLargeNotificationIcon(in.readString());
         setSmallNotificationIcon(in.readString());
         setNotificationIconColor(in.readString());
@@ -130,8 +146,32 @@ public class Config implements Parcelable
         setHttpHeaders((HashMap<String, String>) bundle.getSerializable("httpHeaders"));
     }
 
+    public float getOriginLatitude() {
+        return originLatitude;
+    }
+
+    public float getOriginLongitude() {
+        return originLongitude;
+    }
+
+    public float getPerimeterRadius() {
+        return perimeterRadius;
+    }
+
     public float getStationaryRadius() {
         return stationaryRadius;
+    }
+
+    public void setOriginLatitude(float originLatitude) {
+        this.originLatitude = originLatitude;
+    }
+
+    public void setOriginLongitude(float originLongitude) {
+        this.originLongitude = originLongitude;
+    }
+
+    public void setPerimeterRadius(float perimeterRadius) {
+        this.perimeterRadius = perimeterRadius;
     }
 
     public void setStationaryRadius(float stationaryRadius) {
@@ -172,20 +212,36 @@ public class Config implements Parcelable
         }
     }
 
-    public String getNotificationTitle() {
-        return notificationTitle;
+    public String getInsideNotificationTitle() {
+        return insideNotificationTitle;
     }
 
-    public void setNotificationTitle(String notificationTitle) {
-        this.notificationTitle = notificationTitle;
+    public void setInsideNotificationTitle(String notificationTitle) {
+        this.insideNotificationTitle = notificationTitle;
     }
 
-    public String getNotificationText() {
-        return notificationText;
+    public String getInsideNotificationText() {
+        return insideNotificationText;
     }
 
-    public void setNotificationText(String notificationText) {
-        this.notificationText = notificationText;
+    public void setInsideNotificationText(String notificationText) {
+        this.insideNotificationText = notificationText;
+    }
+
+    public String getOutsideNotificationTitle() {
+        return outsideNotificationTitle;
+    }
+
+    public void setOutsideNotificationTitle(String notificationTitle) {
+        this.outsideNotificationTitle = notificationTitle;
+    }
+
+    public String getOutsideNotificationText() {
+        return outsideNotificationText;
+    }
+
+    public void setOutsideNotificationText(String notificationText) {
+        this.outsideNotificationText = notificationText;
     }
 
     public String getLargeNotificationIcon () {
@@ -334,6 +390,9 @@ public class Config implements Parcelable
     public String toString () {
         return new StringBuffer()
                 .append("Config[distanceFilter=").append(getDistanceFilter())
+                .append(" originLatitude=").append(getOriginLatitude())
+                .append(" originLongitude=").append(getOriginLongitude())
+                .append(" perimeterRadius=").append(getPerimeterRadius())
                 .append(" stationaryRadius=").append(getStationaryRadius())
                 .append(" desiredAccuracy=").append(getDesiredAccuracy())
                 .append(" interval=").append(getInterval())
@@ -345,8 +404,10 @@ public class Config implements Parcelable
                 .append(" startOnBoot=").append(getStartOnBoot())
                 .append(" startForeground=").append(getStartForeground())
                 .append(" locationProvider=").append(getLocationProvider())
-                .append(" nTitle=").append(getNotificationTitle())
-                .append(" nText=").append(getNotificationText())
+                .append(" nInsideTitle=").append(getInsideNotificationTitle())
+                .append(" nInsideText=").append(getInsideNotificationText())
+                .append(" nOutsideTitle=").append(getOutsideNotificationTitle())
+                .append(" nOutsideText=").append(getOutsideNotificationText())
                 .append(" nIconLarge=").append(getLargeNotificationIcon())
                 .append(" nIconSmall=").append(getSmallNotificationIcon())
                 .append(" nIconColor=").append(getNotificationIconColor())
@@ -375,12 +436,17 @@ public class Config implements Parcelable
 
     public static Config fromJSONObject (JSONObject jObject) throws JSONException {
         Config config = new Config();
+        config.setOriginLatitude((float) jObject.optDouble("originLatitude", config.getOriginLatitude()));
+        config.setOriginLongitude((float) jObject.optDouble("originLongitude", config.getOriginLongitude()));
+        config.setPerimeterRadius((float) jObject.optDouble("perimeterRadius", config.getPerimeterRadius()));
         config.setStationaryRadius((float) jObject.optDouble("stationaryRadius", config.getStationaryRadius()));
         config.setDistanceFilter(jObject.optInt("distanceFilter", config.getDistanceFilter()));
         config.setDesiredAccuracy(jObject.optInt("desiredAccuracy", config.getDesiredAccuracy()));
         config.setDebugging(jObject.optBoolean("debug", config.isDebugging()));
-        config.setNotificationTitle(jObject.optString("notificationTitle", config.getNotificationTitle()));
-        config.setNotificationText(jObject.optString("notificationText", config.getNotificationText()));
+        config.setInsideNotificationTitle(jObject.optString("insideNotificationTitle", config.getInsideNotificationTitle()));
+        config.setInsideNotificationText(jObject.optString("insideNotificationText", config.getInsideNotificationText()));
+        config.setOutsideNotificationTitle(jObject.optString("outsideNotificationTitle", config.getOutsideNotificationTitle()));
+        config.setOutsideNotificationText(jObject.optString("outsideNotificationText", config.getOutsideNotificationText()));
         config.setStopOnTerminate(jObject.optBoolean("stopOnTerminate", config.getStopOnTerminate()));
         config.setStartOnBoot(jObject.optBoolean("startOnBoot", config.getStartOnBoot()));
         config.setLocationProvider(jObject.optInt("locationProvider", config.getLocationProvider()));
@@ -403,12 +469,17 @@ public class Config implements Parcelable
 
     public JSONObject toJSONObject() throws JSONException {
         JSONObject json = new JSONObject();
+        json.put("originLatitude", getOriginLatitude());
+        json.put("originLongitude", getOriginLongitude());
+        json.put("perimeterRadius", getPerimeterRadius());
         json.put("stationaryRadius", getStationaryRadius());
         json.put("distanceFilter", getDistanceFilter());
         json.put("desiredAccuracy", getDesiredAccuracy());
         json.put("debug", isDebugging());
-        json.put("notificationTitle", getNotificationTitle());
-        json.put("notificationText", getNotificationText());
+        json.put("insideNotificationTitle", getInsideNotificationTitle());
+        json.put("insideNotificationText", getInsideNotificationText());
+        json.put("outsideNotificationTitle", getOutsideNotificationTitle());
+        json.put("outsideNotificationText", getOutsideNotificationText());
         json.put("notificationIconLarge", getLargeNotificationIcon());
         json.put("notificationIconSmall", getSmallNotificationIcon());
         json.put("notificationIconColor", getNotificationIconColor());
